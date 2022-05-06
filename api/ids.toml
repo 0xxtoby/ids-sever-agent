@@ -1,0 +1,13 @@
+agent_log = "./logs/agent.log"
+py_ids_log = "./logs/py_ids.log"
+
+rules_path = "rules"
+rules_file = "./api/rules/rules.txt"
+ip_rules_file = "./api/rules/ip_rules.txt"
+[mysql_config]
+        host = "localhost"
+        port = 3306
+        user = "root"
+        password = "root"
+        database = "py_ids"
+

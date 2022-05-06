@@ -1,0 +1,22 @@
+[server]
+    ip = "127.0.0.1"
+    port = "8000"
+[agent]
+    name = "agent1"
+[log]
+los_files=[
+    "api/data/nginx.log",
+    "api/data/apache.log",
+]
+system_log_files=[
+    "api/data/auth.log",]
+
+
+pcap_dirs=[
+    "api/data/pcap",
+]
+pcap_files=[
+
+    ]
+
+

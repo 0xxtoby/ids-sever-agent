@@ -1,0 +1,7 @@
+
+["sql注入"]
+r=["\\b(and|exec|insert|select|drop|grant|alter|delete|update|count|chr|mid|master|truncate|char|declare|or)\b|(\*|;|\+|'|%)"]
+
+
+['xss跨站脚本攻击']
+    r=['<script>alert(.*?)</script>', '<scrip>', '<script>alert(.*?)</script>', 'alert', 'alert(.*?)']

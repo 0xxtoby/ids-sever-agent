@@ -1,0 +1,16 @@
+sql注入
+(and|exec|insert|select|drop|grant|alter|delete|update|count|chr|mid|master|updatexml|truncate|char|declare|or)|(\*|;|\+|'|%|\()
+
+xss跨站脚本攻击
+<script>alert(.*?)</script>
+<scrip>
+<script>alert(.*?)</script>
+alert
+alert(.*?)
+
+一句话木马
+@eval
+((?:exec|base64_decode|edoced_46esab|eval|eval_r|system|proc_open|popen|curl_exec|curl_multi_exec|parse_ini_file|show_source|assert)\s*?\(\$(?:_POST|_GET|_REQUEST|GLOBALS))
+
+websell
+
