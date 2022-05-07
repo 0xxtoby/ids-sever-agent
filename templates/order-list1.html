@@ -228,12 +228,21 @@
                         <div class="layui-card-body ">
                             <div class="page">
                                 <div>
-                                    <a class="prev" href="">&lt;&lt;</a>
-                                    <a class="num" href="?page=1">1</a>
-                                    <span class="current">2</span>
-                                    <a class="num" href="?page=3">3</a>
-                                    <a class="num" href="">489</a>
-                                    <a class="next" href="">&gt;&gt;</a></div>
+                                    {% if page_s != None %}
+                                        <a class="prev" href="?page={{ prev_page }}">&lt;&lt;</a>
+                                        {% for i in page_s %}
+
+                                        {% if i == page %}
+
+                                             <span class="current">{{ page }}</span>
+                                        {% else %}
+                                            <a href="?page={{ i }}">{{ i }}</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                            <a class="num" href="?page={{ page_num }}">{{ page_num }}</a>
+                                            <a class="next" href="?page={{ next_page }}">&gt;&gt;</a></div>
+
+                                {% endif %}
                             </div>
                         </div>
                         {% endif %}

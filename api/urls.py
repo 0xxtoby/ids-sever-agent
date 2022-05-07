@@ -21,7 +21,7 @@ from api import views
 
 urlpatterns = [
     path('agent_msg/', views.agent_msg),
-    path('ids_alem/', views.ids_alem),
+
 
 
 ]

@@ -86,6 +86,21 @@ class AlarmInfo_list:
         for i in self.alarmInfo_list:
             r_data_list.append([i.alrm_id,i.alrm_type,i.alrm_desc,i.alrm_time,i.alrm_rule,i.alrm_rule_name,i.src_ip,i.src_port,i.dst_ip,i.dst_port,i.proto_data])
         return r_data_list
+    #读取有几页
+    def get_page_num(self,page_size=20):
+        db=DBUtil().db
+        sql = """
+        select count(*) from alert_info
+        """
+        cuoer = db.execute(sql)
+        for row in cuoer:
+            page_num = row[0]//page_size
+            if row[0]%page_size!=0:
+                page_num+=1
+        db.close()
+        return page_num
+
+
 
 
 

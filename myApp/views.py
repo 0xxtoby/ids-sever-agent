@@ -101,9 +101,27 @@ def ids_index(request):
             print("无error")
 
         page = int(request.GET.get("page", 1))
+
         data=AlarmInfo_list().read_alarm_info(page)
+        page_num=AlarmInfo_list().get_page_num()
+        prev_page=page-1
+        next_page=page+1
+        if page < 4:
+            page_s = [1, 2, 3, 4, 5]
+        elif page > page_num - 3:
+            page_s = [page_num - 4, page_num - 3, page_num - 2, page_num - 1, page_num]
+        else:
+            page_s = [page - 2, page - 1, page, page + 1, page + 2]
+        if prev_page<1:
+            prev_page=1
+        if next_page>page_num:
+            next_page=page_num
+        context["prev_page"]=prev_page
+        context["next_page"]=next_page
         context["data"] = data
         context["page"] = page
+        context["page_s"] = page_s
+        context["page_num"] = page_num
 
 
         return render(request, "order-list1.html",context)
