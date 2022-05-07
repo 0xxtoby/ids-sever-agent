@@ -1,4 +1,5 @@
 import time
+from pprint import pprint
 
 from api.src.db_util import DBUtil
 
@@ -188,6 +189,84 @@ class AlarmInfo_list:
         db.close()
         return num_list
 
+    def read_alarm_info_by_ip_rule_type(self,ip,rule_name,alrm_type,page_num=1,page_size=20):
+        db=DBUtil().db
+
+        sql = """
+        select count(*)  from alert_info where (src_ip=? or ? is '') and (alrm_rule_name=? or ? is '' )and (alrm_type=? or ?is '' )
+        """
+        cuoer = db.execute(sql,(ip,ip,rule_name,rule_name,alrm_type,alrm_type))
+        for row in cuoer:
+            sum=row[0]
+        sum=sum//page_size+1
+
+
+
+        sql = """
+        select * from alert_info where (src_ip=? or ? is '') and (alrm_rule_name=? or ? is '' )and (alrm_type=? or ?is '' )limit ?,?
+        """
+        cuoer = db.execute(sql,(ip,ip,rule_name,rule_name,alrm_type,alrm_type,(page_size*(page_num-1)),page_size))
+        alarm_info_list = []
+        for row in cuoer:
+            alarmInfo = AlertInfo()
+            alarmInfo.alrm_id = row[0]
+            alarmInfo.alrm_type = row[1]
+            alarmInfo.alrm_desc = row[2]
+            alarmInfo.alrm_time = row[3]
+            # 字符串时间戳输出
+            alarmInfo.alrm_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(float(alarmInfo.alrm_time)))
+            alarmInfo.alrm_rule = row[4]
+            alarmInfo.alrm_rule_name = row[5]
+            alarmInfo.src_ip = row[6]
+            alarmInfo.src_port = row[7]
+            alarmInfo.dst_ip = row[8]
+            alarmInfo.dst_port = row[9]
+            alarmInfo.proto_data = row[10]
+            self.alarmInfo_list.append(alarmInfo)
+        db.close()
+        r_data_list = []
+        for i in self.alarmInfo_list:
+            r_data_list.append(
+                [i.alrm_id, i.alrm_type, i.alrm_desc, i.alrm_time, i.alrm_rule, i.alrm_rule_name, i.src_ip, i.src_port,
+                 i.dst_ip, i.dst_port, i.proto_data])
+        return r_data_list,sum
+
+    def read_rule_name(self):
+        db=DBUtil().db
+        sql = """
+        select distinct alrm_rule_name from alert_info
+        """
+        cuoer = db.execute(sql)
+        rule_name_list = []
+        for row in cuoer:
+            rule_name_list.append(row[0])
+        db.close()
+        return rule_name_list
+    def read_rule_type(self):
+        db=DBUtil().db
+        sql = """
+        select distinct alrm_type from alert_info
+        """
+        cuoer = db.execute(sql)
+        rule_type_list = []
+        for row in cuoer:
+            rule_type_list.append(row[0])
+        db.close()
+        return rule_type_list
+    def read_ip(self):
+        db=DBUtil().db
+        sql = """
+        select distinct src_ip from alert_info
+        """
+        cuoer = db.execute(sql)
+        ip_list = []
+        for row in cuoer:
+            ip_list.append(row[0])
+        db.close()
+        return ip_list
+
+
+
 
 
 
@@ -196,7 +275,10 @@ class AlarmInfo_list:
 
 
 if __name__ == '__main__':
-    print(AlarmInfo_list().get_alrm_type_num(),AlarmInfo_list().get_rule_name_num())
+    # print(AlarmInfo_list().get_alrm_type_num(),AlarmInfo_list().get_rule_name_num())
+    print(AlarmInfo_list().read_alarm_info_by_ip_rule_type('','','',1,20))
+    print(AlarmInfo_list().read_alarm_info(1))
+    print(AlarmInfo_list().read_rule_name(),AlarmInfo_list().read_rule_type(),AlarmInfo_list().read_ip())
 
 
 

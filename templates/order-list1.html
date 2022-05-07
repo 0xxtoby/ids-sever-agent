@@ -56,7 +56,7 @@
                             <div class="layui-collapse" lay-filter="test">
                                 <div class="layui-colla-item">
                                 <h2 class="layui-colla-title">条件筛选<i class="layui-icon layui-colla-icon"></i></h2>
-                                <div class="layui-colla-content">
+                                <div class="layui-colla-content layui-show">
                                   <form class="layui-form" action="">
                                       <div class="layui-form-item">
 
@@ -65,10 +65,11 @@
                                           <div class="layui-input-inline">
                                             <select name="type"  lay-search="">
                                               <option value="">直接选择或搜索选择</option>
-                                              <option value="1">layer</option>
-                                              <option value="2">form</option>
-                                              <option value="3">layim</option>
-
+                                                {% if type_list != Nnoe  %}
+                                                    {% for type in type_list %}
+                                              <option value="{{ type }}">{{ type }}</option>
+                                                    {% endfor %}
+                                                {% endif %} %}
                                             </select>
                                           </div>
                                         </div>
@@ -80,11 +81,13 @@
                                           <label class="layui-form-label">源ip</label>
                                           <div class="layui-input-inline">
                                             <select name="ip"  lay-search="">
-                                              <option value="">直接选择或搜索选择</option>
-                                              <option value="17">select</option>
-                                              <option value="18">checkbox</option>
-                                              <option value="19">switch</option>
-                                              <option value="20">radio</option>
+
+                                               <option value="">直接选择或搜索选择</option>
+                                                {% if ip_list != Nnoe  %}
+                                                    {% for ip in ip_list %}
+                                              <option value="{{ ip }}">{{ ip }}</option>
+                                                    {% endfor %}
+                                                {% endif %} %}
                                             </select>
                                           </div>
                                         </div>
@@ -96,10 +99,11 @@
                                           <div class="layui-input-inline">
                                             <select name="rule"  lay-search="">
                                               <option value="">直接选择或搜索选择</option>
-                                              <option value="17">select</option>
-                                              <option value="18">checkbox</option>
-                                              <option value="19">switch</option>
-                                              <option value="20">radio</option>
+                                              <{% if rule_list != Nnoe  %}
+                                                    {% for ip in rule_list %}
+                                              <option value="{{ ip }}">{{ ip }}</option>
+                                                    {% endfor %}
+                                                {% endif %} %}
                                             </select>
                                           </div>
                                         </div>
@@ -165,7 +169,7 @@
                         <div class="layui-card-body ">
                             <div class="page">
                                 <div>
-                                    {% if page_s != None %}
+                                    {% if page_s != None and page_T == None%}
                                         <a class="prev" href="?page={{ prev_page }}">&lt;&lt;</a>
                                         {% for i in page_s %}
 
@@ -178,8 +182,27 @@
                                         {% endfor %}
                                             <a class="num" href="?page={{ page_num }}">{{ page_num }}</a>
                                             <a class="next" href="?page={{ next_page }}">&gt;&gt;</a></div>
+                                {%  elif  page_s != None and page_T != None %}
 
-                                {% endif %}
+                                        <a class="prev" href="?page={{ prev_page }}&type={{ type }}&ip={{ ip }}&rule={{ rule }}">&lt;&lt;</a>
+                                        {% for i in page_s %}
+
+                                        {% if i == page %}
+
+                                             <span class="current">{{ page }}</span>
+                                        {% else %}
+                                            <a href="?page={{ i }}&type={{ type }}&ip={{ ip }}&rule={{ rule }}">{{ i }}</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                            <a class="num" href="?page={{ page_num }}&type={{ type }}&ip={{ ip }}&rule={{ rule }}">{{ page_num }}</a>
+                                            <a class="next" href="?page={{ next_page }}&type={{ type }}&ip={{ ip }}&rule={{ rule }}">&gt;&gt;</a></div>
+
+
+
+                                {% else %}
+                                    <div>暂无数据</div>
+                                    {% endif %}
+
                             </div>
                         </div>
                         {% endif %}

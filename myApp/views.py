@@ -110,6 +110,9 @@ def ids_index(request):
 
         page = int(request.GET.get("page", 1))
 
+        context['rule_list']=AlarmInfo_list().read_rule_name()
+        context['type_list']=AlarmInfo_list().read_rule_type()
+        context['ip_list']=AlarmInfo_list().read_ip()
         if ip =="" and rule=="" and type=="":
             data=AlarmInfo_list().read_alarm_info(page)
             page_num=AlarmInfo_list().get_page_num()
@@ -131,9 +134,42 @@ def ids_index(request):
             context["page"] = page
             context["page_s"] = page_s
             context["page_num"] = page_num
-
-
             return render(request, "order-list1.html",context)
+
+        elif ip !="" or  rule=="" or type=="":
+            data,page_num=AlarmInfo_list().read_alarm_info_by_ip_rule_type(ip,rule,type,page)
+            prev_page = page - 1
+            next_page = page + 1
+
+            if page < 4:
+                page_s = [1, 2, 3, 4, 5]
+            elif page > page_num - 3:
+                page_s = [page_num - 4, page_num - 3, page_num - 2, page_num - 1, page_num]
+            else:
+                page_s = [page - 2, page - 1, page, page + 1, page + 2]
+            if page_num< 5:
+                page_s =[]
+
+                for i in range(1,page_num+1):
+                    page_s.append(i)
+
+            if prev_page < 1:
+                prev_page = 1
+            if next_page > page_num:
+                next_page = page_num
+            context["prev_page"] = prev_page
+            context["next_page"] = next_page
+            context["data"] = data
+            context["page"] = page
+            context["page_s"] = page_s
+            context["page_num"] = page_num
+            context["ip"] = ip
+            context["rule"] = rule
+            context["type"] = type
+            context['page_T']=1
+
+            return render(request, "order-list1.html", context)
+
 
 #
 
