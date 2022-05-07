@@ -30,6 +30,9 @@ urlpatterns = [
     path('logout/', myApp.views.logout),
     path('register', myApp.views.register),
     path('order-list1/', myApp.views.ids_index),
+    path('order-details/', myApp.views.order_details),
+    path('ids_admin/', myApp.views.ids_admin),
+    path('welcome/', myApp.views.welcome),
 
 
 

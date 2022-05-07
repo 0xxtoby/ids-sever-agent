@@ -1,3 +1,5 @@
+import time
+
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -5,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
 from api.src.AlarmInfo import AlarmInfo_list
+from api.src.system_info import system_info
 from myApp.DAO.lianjia import lianjia_emp
 from myApp.DAO.qax import qax_emp
 from myApp.DAO.qax2 import qax2_emp
@@ -100,31 +103,67 @@ def ids_index(request):
         except:
             print("无error")
 
+
+        ip=request.GET.get("ip","")
+        rule=request.GET.get("rule","")
+        type=request.GET.get("type","")
+
         page = int(request.GET.get("page", 1))
 
-        data=AlarmInfo_list().read_alarm_info(page)
-        page_num=AlarmInfo_list().get_page_num()
-        prev_page=page-1
-        next_page=page+1
-        if page < 4:
-            page_s = [1, 2, 3, 4, 5]
-        elif page > page_num - 3:
-            page_s = [page_num - 4, page_num - 3, page_num - 2, page_num - 1, page_num]
-        else:
-            page_s = [page - 2, page - 1, page, page + 1, page + 2]
-        if prev_page<1:
-            prev_page=1
-        if next_page>page_num:
-            next_page=page_num
-        context["prev_page"]=prev_page
-        context["next_page"]=next_page
-        context["data"] = data
-        context["page"] = page
-        context["page_s"] = page_s
-        context["page_num"] = page_num
+        if ip =="" and rule=="" and type=="":
+            data=AlarmInfo_list().read_alarm_info(page)
+            page_num=AlarmInfo_list().get_page_num()
+            prev_page=page-1
+            next_page=page+1
+            if page < 4:
+                page_s = [1, 2, 3, 4, 5]
+            elif page > page_num - 3:
+                page_s = [page_num - 4, page_num - 3, page_num - 2, page_num - 1, page_num]
+            else:
+                page_s = [page - 2, page - 1, page, page + 1, page + 2]
+            if prev_page<1:
+                prev_page=1
+            if next_page>page_num:
+                next_page=page_num
+            context["prev_page"]=prev_page
+            context["next_page"]=next_page
+            context["data"] = data
+            context["page"] = page
+            context["page_s"] = page_s
+            context["page_num"] = page_num
 
 
-        return render(request, "order-list1.html",context)
+            return render(request, "order-list1.html",context)
+
+#
+
+def order_details(request):
+    if request.method == "GET":
+        context={}
+        id=request.GET.get("id")
+        data=AlarmInfo_list().select_id(id)
+        context["data"]=data
+
+        return render(request, "order-details.html",context)
+
+def ids_admin(request):
+    return render(request, "ids_index.html")
+
+def welcome(request):
+    context={}
+
+    sys_info=system_info().get_list()
+    context["sys_info"]=sys_info
+    alrm_type_num=AlarmInfo_list().get_alrm_type_num()
+    rule_name_num=AlarmInfo_list().get_rule_name_num()
+    context["alrm_type_num"]=alrm_type_num
+    context["rule_name_num"]=rule_name_num
+    #后去当前时间
+    now_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    context['time']=now_time
+
+    return render(request, "welcome.html",context)
+
 
 
 

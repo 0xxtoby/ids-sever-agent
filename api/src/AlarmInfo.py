@@ -1,3 +1,5 @@
+import time
+
 from api.src.db_util import DBUtil
 
 
@@ -73,6 +75,8 @@ class AlarmInfo_list:
             alarmInfo.alrm_type = row[1]
             alarmInfo.alrm_desc = row[2]
             alarmInfo.alrm_time = row[3]
+            #字符串时间戳输出
+            alarmInfo.alrm_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(float(alarmInfo.alrm_time)))
             alarmInfo.alrm_rule = row[4]
             alarmInfo.alrm_rule_name = row[5]
             alarmInfo.src_ip = row[6]
@@ -86,6 +90,34 @@ class AlarmInfo_list:
         for i in self.alarmInfo_list:
             r_data_list.append([i.alrm_id,i.alrm_type,i.alrm_desc,i.alrm_time,i.alrm_rule,i.alrm_rule_name,i.src_ip,i.src_port,i.dst_ip,i.dst_port,i.proto_data])
         return r_data_list
+
+    def select_id(self,alrm_id):
+        db=DBUtil().db
+        sql = """
+        select * from alert_info where alrm_id=?
+        """
+        cuoer = db.execute(sql,(alrm_id,))
+        for row in cuoer:
+            alarmInfo = AlertInfo()
+            alarmInfo.alrm_id = row[0]
+            alarmInfo.alrm_type = row[1]
+            alarmInfo.alrm_desc = row[2]
+            alarmInfo.alrm_time = row[3]
+            #字符串时间戳输出
+            alarmInfo.alrm_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(float(alarmInfo.alrm_time)))
+            alarmInfo.alrm_rule = row[4]
+            alarmInfo.alrm_rule_name = row[5]
+            alarmInfo.src_ip = row[6]
+            alarmInfo.src_port = row[7]
+            alarmInfo.dst_ip = row[8]
+            alarmInfo.dst_port = row[9]
+            alarmInfo.proto_data = row[10]
+            db.close()
+            return [alarmInfo.alrm_id,alarmInfo.alrm_type,alarmInfo.alrm_desc,alarmInfo.alrm_time,alarmInfo.alrm_rule,alarmInfo.alrm_rule_name,alarmInfo.src_ip,alarmInfo.src_port,alarmInfo.dst_ip,alarmInfo.dst_port,alarmInfo.proto_data]
+
+
+
+
     #读取有几页
     def get_page_num(self,page_size=20):
         db=DBUtil().db
@@ -100,12 +132,71 @@ class AlarmInfo_list:
         db.close()
         return page_num
 
+    #查询alrm_type字段数据
+    def select_alrm_type(self):
+        db=DBUtil().db
+        sql = """
+        select distinct alrm_type from alert_info
+        """
+        cuoer = db.execute(sql)
+        alrm_type_list = []
+        for row in cuoer:
+            alrm_type_list.append(row[0])
+        db.close()
+        return alrm_type_list
+
+    #查询遍历不同alrm_type 的数据条数
+    def get_alrm_type_num(self):
+        db=DBUtil().db
+        types=self.select_alrm_type()
+        num_list = []
+        for type in types:
+            sql = """
+            select count(*) from alert_info where alrm_type=?
+            """
+            cuoer = db.execute(sql,(type,))
+            for row in cuoer:
+                num_list.append([type,row[0]])
+
+        db.close()
+        return num_list
+
+    def select_rule_name(self):
+        db=DBUtil().db
+        sql = """
+        select distinct alrm_rule_name from alert_info
+        """
+        cuoer = db.execute(sql)
+        rule_name_list = []
+        for row in cuoer:
+            rule_name_list.append(row[0])
+        db.close()
+        return rule_name_list
+
+    def get_rule_name_num(self):
+        db=DBUtil().db
+        types=self.select_rule_name()
+        num_list = []
+        for type in types:
+            sql = """
+            select count(*) from alert_info where alrm_rule_name=?
+            """
+            cuoer = db.execute(sql,(type,))
+            for row in cuoer:
+                num_list.append([type,row[0]])
+
+        db.close()
+        return num_list
+
+
+
+
 
 
 
 
 if __name__ == '__main__':
-    print(AlarmInfo_list().read_alarm_info(2))
+    print(AlarmInfo_list().get_alrm_type_num(),AlarmInfo_list().get_rule_name_num())
 
 
 
