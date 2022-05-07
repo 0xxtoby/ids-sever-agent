@@ -48,6 +48,7 @@ class AlertInfo:
 
     # 保存警告信息
     def save_aler(self):
+        self.db = DBUtil().db
         sql = """
         insert into alert_info(alrm_type,alrm_desc,alrm_time,alrm_rule,src_ip,src_port,dst_ip,dst_port,proto_data,alrm_rule_name)
         values(?,?,?,?,?,?,?,?,?,?)

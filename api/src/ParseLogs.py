@@ -118,7 +118,7 @@ class AuthLogs:
                     t = log.time.__format__("%m-%d %H:%M:%S")
                     info="[*] {} 检测到ssh连接失败: {}:{}".format(t,log.src, log.port)
 
-                    print(info)
+                    # print(info)
 
 
     #读取规则

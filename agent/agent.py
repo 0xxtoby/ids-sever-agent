@@ -91,8 +91,9 @@ class agent:
 
 
     def run(self):
-        # self.pacp_scan()
+        self.pacp_scan()
         self.system_log_scan()
+        self.web_log_scan()
 
 
 
