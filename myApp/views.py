@@ -44,7 +44,7 @@ def login(request):
 
             auth.login(request, user=user_obj)
             print('登录成功', user_obj)
-            path = request.GET.get("next") or "/lianjia"
+            path = request.GET.get("next") or "/ids_admin"
             print(path)
             return redirect(path)
     else:
