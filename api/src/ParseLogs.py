@@ -98,10 +98,8 @@ class AuthLogs:
 
                             if E != []:
                                 # print((log.time - E[-1].time).total_seconds())
-
                                 if (log.time - E[-1].time).total_seconds() < 30:
                                     sun += 1
-
                                 else:
                                     if sun!=0 and sun >=5:
                                         # | xss跨站脚本攻击 | [+]检测到威胁 10.74.41.52->176.28.50.165 /hpp/params.php?pp=12&p=valid1%3Cscript%3Ealert(42873)%3C/script%3E

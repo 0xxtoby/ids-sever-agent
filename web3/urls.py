@@ -29,6 +29,7 @@ urlpatterns = [
     path('index/', myApp.views.index),
     path('logout/', myApp.views.logout),
     path('register', myApp.views.register),
+    path('order-list1/', myApp.views.ids_index),
 
 
 

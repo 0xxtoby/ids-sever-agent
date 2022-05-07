@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+
+from api.src.AlarmInfo import AlarmInfo_list
 from myApp.DAO.lianjia import lianjia_emp
 from myApp.DAO.qax import qax_emp
 from myApp.DAO.qax2 import qax2_emp
@@ -84,6 +86,27 @@ def register(request):
     request.session["reg_error"] = '注册成功！'
     return redirect("/login")
 
+def ids_index(request):
+    if request.method == "GET":
+        context={}
+        try:
+            context["data"] = request.session.get("data")
+            del request.session["data"]
+        except:
+            print("无data")
+        try:
+            context["error"] = request.session.get("error")
+            del request.session["error"]
+        except:
+            print("无error")
+
+        page = int(request.GET.get("page", 1))
+        data=AlarmInfo_list().read_alarm_info(page)
+        context["data"] = data
+        context["page"] = page
+
+
+        return render(request, "order-list1.html",context)
 
 
 

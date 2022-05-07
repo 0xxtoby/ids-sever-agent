@@ -40,7 +40,7 @@
    <!-- Brand Logo -->
    <a href="../../index3.html" class="brand-link">
      <img src="/static/dist/img/AdminLTELogo.png" alt="AdminLTE 标志" class="brand-image img-circle elevation-3" style="opacity: .8">
-     <span class="brand-text font-weight-light"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">黑客后台管理</font></font></span>
+     <span class="brand-text font-weight-light"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ids后台管理</font></font></span>
    </a>
 
    <!-- Sidebar -->
@@ -131,7 +131,7 @@
       <section class="content">
 
          <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
 
                <div class="card card-warning">
                   <div class="card-header">
@@ -141,7 +141,7 @@
                    <div class="card-body">
                      <form action="lianjia" method="post">
                         <div class="row">
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                              <!-- select -->
                              <div class="form-group">
                                <label>区域：</label>
@@ -159,17 +159,17 @@
                                </select>
                              </div>
                            </div>
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                              <div class="form-group">
-                               <label>出租方式</label>
-                               <select class="form-control" name="fs_no">
-                                 <option value="0">不限</option>
-                                 <option value="1">整租</option>
-                                 <option value="2">合租</option>
+                               <label>类型</label>
+                               <select class="form-control" name="type">
+                                 <option value="0">pcap扫描检测</option>
+                                 <option value="1">系统日志审计</option>
+                                 <option value="2">web_日志检测</option>
                                </select>
                              </div>
                            </div>
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                               <div class="form-group">
                                 <label>租金范围</label>
                                 <select class="form-control" name="zj_no">
@@ -183,7 +183,7 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                               <div class="form-group">
                                 <label>户型</label>
                                 <select class="form-control" name="hx_no">
@@ -195,7 +195,7 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                               <div class="form-group">
                                 <label>朝向</label>
                                 <select class="form-control" name="cx_no">
@@ -208,7 +208,7 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                               <div class="form-group">
                                  <label>爬取的页数</label>
                                  <input name="pg_no" type="text" class="form-control" placeholder="Enter ...">
@@ -237,6 +237,7 @@
                </div>
 
             </div>
+
              {% if error != None %}
                   <div class="col-ms-2">
 
@@ -255,7 +256,7 @@
              {% endif %}
          </div>
 
-    {% if lianjia_data != None %}
+    {% if data != None %}
       <!--返回信息-->
       <div class="row">
          <div class="col-12">
@@ -278,24 +279,24 @@
              <div class="card-body table-responsive p-0">
                <table class="table table-hover text-nowrap">
                  <thead>
-{#                 [{'content': '1800',#}
-{#  'des': '椒江区-市府-和平家园/68.00㎡/南/2室0厅1卫',#}
-{#  'tag_list': ['精装', '随时看房'],#}
-{#  'title': '整租·和平家园 2室0厅 错层 南'},#}
+
                    <tr>
-                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">名称标题</font></font></th>
+                     <th ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">alrm_id</font></font></th>
+                       <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">时间</font></font></th>
                      <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类型</font></font></th>
-                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特色</font></font></th>
-                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">价格</font></font></th>
+                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">源ip</font></font></th>
+                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">攻击类型</font></font></th>
                    </tr>
                  </thead>
                  <tbody>
-                 {% for item in  lianjia_data%}
+                 {% for item in  data%}
+{#                     [i.alrm_id,i.alrm_type,i.alrm_desc,i.alrm_time,i.alrm_rule,i.alrm_rule_name,i.src_ip,i.src_port,i.dst_ip,i.dst_port,i.proto_data]#}
                    <tr>
-                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ item.title }}</font></font></td>
-                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ item.des }}</font></font></td>
-                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ item.tag_list }}</font></font></td>
-                     <td><span class="tag tag-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ item.content }}</font></font></span></td>
+                     <td> {{ item.0 }}</td>
+                     <td>{{ item.3 }}</td>
+                     <td>{{ item.1 }}</td>
+                     <td>{{ item.6 }} {{ item.7 }}</td>
+                     <td>{{ item.5 }}</td>
 {#                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">培根 ipsum dolor 坐 amet 意大利腊肠鹿肉鸡侧翼肥肉烤肉。</font></font></td>#}
                    </tr>
 
