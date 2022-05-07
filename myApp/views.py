@@ -8,10 +8,6 @@ from django.contrib.auth.models import User
 
 from api.src.AlarmInfo import AlarmInfo_list
 from api.src.system_info import system_info
-from myApp.DAO.lianjia import lianjia_emp
-from myApp.DAO.qax import qax_emp
-from myApp.DAO.qax2 import qax2_emp
-from myApp.DAO.reebuf import reebuf_emp
 
 
 @csrf_exempt

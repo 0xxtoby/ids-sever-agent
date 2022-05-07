@@ -60,10 +60,6 @@ class agent:
              ff=f.read()
              item.send_data(ff)
 
-
-
-
-
     #系统日志扫描
     def system_log_scan(self):
         time = data_dic()
@@ -104,7 +100,11 @@ def send_data(data, ff):
         print(r.text)
 
 if __name__ == '__main__':
-    agent().run()
+    #定时运行
+    while True:
+        agent().run()
+        time.sleep(60)
+
 
 
 

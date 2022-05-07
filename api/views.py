@@ -61,15 +61,9 @@ agent_type_dict = {
 def agent_msg_emp(request):
     f_no=0
     if request.method == 'POST':
-
         if request.POST['type'] in "1,2,3,4,5" :
-
             yield ServerJsonMsg(200, '接受成功' ,len(request.POST)).json
-
             ControlCenter(request).process()
-
-            #将data存入队列
-
         else:
             #接受失败
             yield ServerJsonMsg(400, '接受失败').json

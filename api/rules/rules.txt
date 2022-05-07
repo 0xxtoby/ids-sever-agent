@@ -12,5 +12,5 @@ alert(.*?)
 @eval
 ((?:exec|base64_decode|edoced_46esab|eval|eval_r|system|proc_open|popen|curl_exec|curl_multi_exec|parse_ini_file|show_source|assert)\s*?\(\$(?:_POST|_GET|_REQUEST|GLOBALS))
 
-websell
-
+冰蝎攻击特征
+\.(php|jsp|asp|aspx)\?(\w){1,10}=\d{1,3} HTTP/1.1

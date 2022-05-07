@@ -140,7 +140,7 @@ class PcapAudit:
                     except:
                         pass
 
-                    dict['type'] = 'request'
+                    dict['type'] = 'GET'
                     try:
                         dict['str'] = tcp.data.decode("utf-8")
                     except:
@@ -233,8 +233,6 @@ class PcapAudit:
 
     def pcap_check(self):
         self.parse_pcap()
-
-
         for i in PcapAudit.app_pcap_list:
             if i['protocol'] == "udp":
                 if i['type'] == 'dns':
@@ -263,6 +261,13 @@ class PcapAudit:
                                 info_list = [i['src'], i['src_port'], i['dst'], i['dst_port'], i['str'], rule,
                                              rules_dic['rule_name'], i['timestamp']]
                                 self.alert(alert_info,info_list)
+                            if match_rule_str(i['str'], rule):
+                                alert_info = "| {} | [+]检测到威胁 {}->{} {} {}".format(
+                                    rules_dic['rule_name'], i['src'], i['dst'], i['str'].find(rule), rule)
+                                info_list = [i['src'], i['src_port'], i['dst'], i['dst_port'], i['str'], rule,
+                                             rules_dic['rule_name'], i['timestamp']]
+                                print(alert_info)
+                                self.alert(alert_info, info_list=info_list)
                         elif i['type'] == "post" or i['type'] == "post_data":
                             if match_rule_str(i['str'], rule) and rules_dic['rule_name'] != "sql注入":
 

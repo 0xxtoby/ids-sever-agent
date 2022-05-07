@@ -36,7 +36,7 @@
                             <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                             {% for i in alrm_type_num %}
                                 <li class="layui-col-md2 layui-col-xs6 ">
-                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                    <a href="/order-list1/?type={{ i.0 }}&ip=&rule=" class="x-admin-backlog-body">
                                         <h3>{{ i.0 }}</h3>
                                         <p>
                                             <cite>{{ i.1 }}</cite></p>
@@ -49,7 +49,7 @@
                             <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                             {% for i in rule_name_num %}
                                 <li class="layui-col-md2 layui-col-xs6 ">
-                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                    <a href="/order-list1/?type=&ip=&rule={{ i.0 }}" class="x-admin-backlog-body">
                                         <h3>{{ i.0 }}</h3>
                                         <p>
                                             <cite>{{ i.1 }}</cite></p>

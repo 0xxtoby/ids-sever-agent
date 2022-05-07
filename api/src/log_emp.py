@@ -122,7 +122,7 @@ class LogAnalyze:
 
     # log检测
     def log_check(self):
-        self.read_rules()
+        self.read_rules()#读取规则文件
 
         for line in self.access_list:
             for rule in self.rule_list:
@@ -130,9 +130,10 @@ class LogAnalyze:
                 rules = rule['rules']
                 for i in rules:
                     # 判断rule是否在line中
-                    if match_rule(line, i):
+                    if match_rule(line, i):#如果匹配到了规则
                         alert_info = '[+]检测到威胁{ip} {time} {method} {url} {protocol} {status} {size}'.format(**line)
                         print("｜ " + rule_name + " ｜" + alert_info)
+                        #告警
                         self.alert("｜ " + rule_name + " ｜" + alert_info,info_list=[line['ip'],line['time'],line['method'],line['url'],line['protocol'],line['status'],line['size'],rule_name,i])
 
     def list_add(self,data):
